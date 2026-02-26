@@ -29,17 +29,19 @@ This project demonstrates how RSS-style streaming content can be converted into 
 ---
 
 ## Architecture
-RSS Feed Sources
+```
+RSS Feed Sources  
 ↓
-Python Ingestion Layer
+Python Ingestion Layer  
 ↓
-Raw CSV Storage Layer
+Raw CSV Storage Layer  
 ↓
-DuckDB Analytics Warehouse
+DuckDB Analytics Warehouse  
 ↓
-dbt Transformation Models
+dbt Transformation Models  
 ↓
 Business Metrics & Analytics Layer
+```
 
 
 ---
