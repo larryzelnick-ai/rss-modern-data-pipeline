@@ -31,15 +31,20 @@ This project demonstrates how RSS-style streaming content can be converted into 
 ## Architecture
 ```
 RSS Feed Sources  
-↓
+        │
+        ▼
 Python Ingestion Layer  
-↓
+        │
+        ▼
 Raw CSV Storage Layer  
-↓
+        │
+        ▼
 DuckDB Analytics Warehouse  
-↓
+        │
+        ▼
 dbt Transformation Models  
-↓
+        │
+        ▼
 Business Metrics & Analytics Layer
 ```
 
@@ -52,7 +57,7 @@ Business Metrics & Analytics Layer
 - Python
 
 ### Data Engineering
-- dbt (data build tool)
+- dbt (Data Build Tool)
 - SQL
 - DuckDB
 
@@ -112,54 +117,42 @@ Example:
 ### Install Dependencies
 ```bash
 pip install feedparser pandas dbt-duckdb
+```
 
-Run Pipeline
-
+### Run Pipeline
+```bash
 python python_scripts/ingest_rss.py
 cd rss_modernization
 dbt run
 dbt test
-
-Project Learning Outcomes
-
-This project demonstrates competency in:
-
-Modern analytics engineering workflows
-
-Pipeline architecture design
-
-Data transformation modeling
-
-Data quality governance
-
-Version-controlled data development
-
-Future Enhancements
-
-Potential improvements include:
-
-Cloud warehouse migration
-
-Orchestration with workflow schedulers
-
-Real-time streaming ingestion
-
-Expanded data quality frameworks
-
-Dashboard visualization integration
-
-Author
-
-Built as a data engineering portfolio project.
-
+```
 
 ---
 
-# ⭐ After You Paste This (VERY IMPORTANT)
+## Project Learning Outcomes
 
-Then run:
+This project demonstrates competency in:
 
-```bash
-git add README.md
-git commit -m "Upgrade README to premium portfolio version"
-git push
+- Modern analytics engineering workflows
+- Pipeline architecture design
+- Data transformation modeling
+- Data quality governance
+- Version-controlled data development
+
+---
+
+## Future Enhancements
+
+Potential improvements include:
+
+- Cloud warehouse migration
+- Workflow orchestration
+- Real-time streaming ingestion
+- Expanded data quality frameworks
+- Dashboard visualization integration
+
+---
+
+## Author
+
+Built as a data engineering portfolio project.
