@@ -10,7 +10,7 @@ This project was built to demonstrate real-world data engineering concepts inclu
 - Pipeline orchestration
 - Data transformation modeling
 - Data quality testing
-- Analytics-ready data modeling
+- Structured transformation models for downstream analytics consumption
 
 The design simulates how modern organizations build scalable analytics platforms.
 
@@ -85,7 +85,7 @@ dbt models transform raw data into analytics-ready datasets.
 
 Includes:
 - Staging models
-- Business metric models
+- Intermediate and aggregation models for analytics use
 - Data quality testing
 
 ---
