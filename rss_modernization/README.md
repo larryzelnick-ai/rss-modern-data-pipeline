@@ -4,27 +4,21 @@
 
 The RSS Modern Data Pipeline project demonstrates a production-style analytics engineering workflow using Python ingestion, dbt transformation modeling, and DuckDB as a local analytics warehouse.
 
-This project was built to demonstrate real-world data engineering concepts including:
+This project demonstrates real-world data engineering concepts including:
 
-- Data extraction from semi-structured feeds
-- Pipeline orchestration
-- Data transformation modeling
-- Data quality testing
-- Structured transformation models for downstream analytics consumption
-
-The design simulates how modern organizations build scalable analytics platforms.
+- Data extraction from RSS feeds
+- Structured ingestion pipelines
+- Analytics engineering transformation modeling
+- Data quality validation
+- Incremental data processing
 
 ---
 
 ## Business Value
 
-Modern organizations rely on structured analytics pipelines to:
+Modern organizations need reliable pipelines to convert semi-structured feed content into structured analytics datasets.
 
-- Transform raw event or feed data into business insights
-- Maintain data quality and lineage visibility
-- Enable self-service analytics reporting
-
-This project demonstrates how RSS-style streaming content can be converted into structured analytics datasets.
+This project demonstrates how RSS-style streaming content can be converted into business-ready analytics tables for reporting and downstream analysis.
 
 ---
 
@@ -36,7 +30,7 @@ RSS Feed Sources
 Python Ingestion Layer  
         │
         ▼
-Raw CSV Storage Layer  
+CSV Raw Storage Layer  
         │
         ▼
 DuckDB Analytics Warehouse  
@@ -45,16 +39,15 @@ DuckDB Analytics Warehouse
 dbt Transformation Models  
         │
         ▼
-Business Metrics & Analytics Layer
+Business Analytics Marts
 ```
-
 
 ---
 
 ## Technologies Used
 
-### Programming
-- Python
+### Programming & Scripting
+- Python 3.x
 
 ### Data Engineering
 - dbt (Data Build Tool)
@@ -70,45 +63,90 @@ Business Metrics & Analytics Layer
 ## Pipeline Design
 
 ### 1. Extraction Layer
-Python scripts extract RSS feed data and convert it into structured CSV datasets.
+RSS feeds are extracted using Python and stored as structured CSV data.
 
-Example data fields include:
+Example extracted fields:
 - Article title
 - Publication date
-- Link
+- Article link
 - Summary content
+- Source feed identifier
+
+The ingestion script is located in:
+
+```bash
+python_scripts/ingest_rss.py
+```
 
 ---
 
-### 2. Transformation Layer
+### 2. Raw Data Layer
+Raw RSS data is stored as seed data or raw warehouse views.
+
+```bash
+models/seeds/rss_raw_seed.csv
+models/sources/rss_sources.yml
+```
+
+---
+
+### 3. Transformation Layer
 dbt models transform raw data into analytics-ready datasets.
 
-Includes:
-- Staging models
-- Intermediate and aggregation models for analytics use
-- Data quality testing
+Models include:
 
----
+#### Staging Layer
+- Data cleaning and type normalization
+- Incremental loading support
 
-### 3. Analytics Layer
-Aggregated metrics such as:
-- Articles published per day
-- Unique content counts
+```bash
+models/staging/stg_rss_articles.sql
+```
+
+#### Marts Layer
+Business analytics tables including:
+- Date dimension table
+- Article fact table
+
+```
+models/marts/dim_date.sql
+models/marts/fact_articles.sql
+```
 
 ---
 
 ## Data Quality Testing
 
 The project implements dbt tests to validate:
-
 - Non-null constraints
-- Unique identifiers
-- Data integrity validation
+- Unique keys
+- Data integrity rules
 
-Example:
-
+Examples:
 - Article links must be unique
-- Titles must not be null
+- Required fields cannot be null
+
+Tests are defined in:
+
+```bash
+models/staging/stg_rss_articles.yml
+```
+---
+
+### Incremental Processing
+
+Staging models use incremental logic to prevent reprocessing historical data.
+
+Example pattern:
+
+```sql
+{% if is_incremental() %}
+where published_date > (
+    select coalesce(max(published_date), '1900-01-01')
+    from {{ this }}
+)
+{% endif %}
+```
 
 ---
 
@@ -116,12 +154,19 @@ Example:
 
 ### Install Dependencies
 ```bash
-pip install feedparser pandas dbt-duckdb
+pip install feedparser pandas dbt-duckdb prefect
 ```
 
-### Run Pipeline
+### Run Ingestion Pipeline
 ```bash
 python python_scripts/ingest_rss.py
+```
+
+### Run dbt Transformations
+
+From the project root:
+
+```bash
 cd rss_modernization
 dbt run
 dbt test
@@ -146,13 +191,34 @@ This project demonstrates competency in:
 Potential improvements include:
 
 - Cloud warehouse migration
-- Workflow orchestration
 - Real-time streaming ingestion
-- Expanded data quality frameworks
+- Workflow orchestration automation
+- Advanced analytics metrics
 - Dashboard visualization integration
 
 ---
 
+### Project Structure
+
+```
+dbt-modernization/
+│
+├ python_scripts/
+├ rss_modernization/
+│   ├ models/
+│   │   ├ staging/
+│   │   ├ marts/
+│   │   └ sources/
+│   ├ orchestration/
+│   ├ seeds/
+│   └ tests/
+│
+├ logs/
+├ venv/
+└ README.md
+```
+---
+
 ## Author
 
-Built as a data engineering portfolio project.
+Designed and implemented as a modern analytics engineering portfolio project.
