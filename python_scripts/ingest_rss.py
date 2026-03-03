@@ -1,6 +1,7 @@
 import feedparser
 import pandas as pd
 
+feed_name = "nytimes"   # or whatever RSS source you are pulling from
 url = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
 
 feed = feedparser.parse(url)
@@ -12,7 +13,8 @@ for entry in feed.entries:
         "title": entry.get("title"),
         "published": entry.get("published"),
         "link": entry.get("link"),
-        "summary": entry.get("summary")
+        "summary": entry.get("summary"),
+        "source_feed": feed_name   # or feed URL/domain name
     })
 
 df = pd.DataFrame(rows)

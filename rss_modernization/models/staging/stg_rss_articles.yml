@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_rss_articles
+    columns:
+      - name: title
+        tests:
+          - not_null
+
+      - name: link
+        tests:
+          - not_null
+          - unique
+
+      - name: published_date
+        tests:
+          - not_null
+
+      - name: source_feed
+        tests:
+          - not_null

@@ -4,3 +4,6 @@ target/
 __pycache__/
 *.pyc
 logs/
+rss_modernization/data/
+*.log
+*.code-workspace
